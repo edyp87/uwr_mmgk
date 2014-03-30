@@ -44,38 +44,21 @@ void RenderArea::setPen(const QPen &pen) {
     update();
 }
 
-void RenderArea::setBrush(const QBrush &brush) {
-   this->brush = brush;
-    update();
-}
 
 void RenderArea::setAntialiased(bool antialiased) {
    this->antialiased = antialiased;
     update();
 }
 
-void RenderArea::setTransformed(bool transformed) {
-   this->transformed = transformed;
-    update();
-}
 
 void RenderArea::paintEvent(QPaintEvent  *event = NULL) {
 
     static QPointF function[700];
     int j = 0;
 
-
-
-    QPainterPath path;
-    path.moveTo(20, 80);
-    path.lineTo(20, 30);
-    path.cubicTo(80, 0, 50, 50, 80, 80);
-
-
     // w koncu tworzymy qpainter i uwstawiamy pedzel itp
     QPainter painter(this);
     painter.setPen(pen);
-    painter.setBrush(brush);
     if(antialiased)
         painter.setRenderHint(QPainter::Antialiasing, true);
 
@@ -83,12 +66,6 @@ void RenderArea::paintEvent(QPaintEvent  *event = NULL) {
         for(int y = 0; y < 100; y += 100) {
             painter.save();
             painter.translate(x, y);
-            if(transformed) {
-                painter.translate(50, 50);
-                painter.rotate(60.0);
-                painter.scale(0.6, 0.6);
-                painter.translate(-50, -50);
-            }
             switch(shape) {
             case Cykloida: {
                 j = 0;
@@ -126,7 +103,6 @@ void RenderArea::paintEvent(QPaintEvent  *event = NULL) {
     }
     painter.setRenderHint(QPainter::Antialiasing, false);
     painter.setPen(palette().dark().color());
-    painter.setBrush(Qt::NoBrush);
     painter.drawRect(QRect(0, 0, width() -1, height() - 1));
 }
 
