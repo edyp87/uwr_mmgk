@@ -23,18 +23,6 @@ class RenderArea : public QWidget {
 
 public:
     enum Shape {
-        Line,
-        Points,
-        Polyline,
-        Polygon,
-        Rect,
-        RoundedRect,
-        Ellipse,
-        Arc,
-        Chord,
-        Pie,
-        Path,
-        Text,
         Cykloida,
         Sinus
     };

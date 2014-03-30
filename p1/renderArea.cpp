@@ -59,29 +59,18 @@ void RenderArea::setTransformed(bool transformed) {
     update();
 }
 
-void RenderArea::paintEvent(QPaintEvent *event) {
-    //punkty uzywane przy Points, Polyline i Polygon
-    static const QPoint points[4] = {
-        QPoint(10, 160),
-        QPoint(20, 10),
-        QPoint(350, 30),
-        QPoint(380, 140)
-    };
+void RenderArea::paintEvent(QPaintEvent  *event = NULL) {
 
     static QPointF function[700];
     int j = 0;
 
 
-    QRect rect(10, 20, 80, 60);
 
     QPainterPath path;
     path.moveTo(20, 80);
     path.lineTo(20, 30);
     path.cubicTo(80, 0, 50, 50, 80, 80);
 
-    // katy dla lokow itp
-    int startAngle = 20 * 16;
-    int arcLength = 120 * 16;
 
     // w koncu tworzymy qpainter i uwstawiamy pedzel itp
     QPainter painter(this);
@@ -101,42 +90,6 @@ void RenderArea::paintEvent(QPaintEvent *event) {
                 painter.translate(-50, -50);
             }
             switch(shape) {
-            case Line:
-                painter.drawLine(rect.bottomLeft(), rect.topRight());
-                break;
-            case Points:
-                painter.drawPoints(points, 4);
-                break;
-            case Polyline:
-                painter.drawPolyline(points, 4);
-                break;
-            case Polygon:
-                painter.drawPolygon(points, 4);
-                break;
-            case Rect:
-                painter.drawRect(rect);
-                break;
-            case RoundedRect:
-                painter.drawRoundedRect(rect, 25, 25, Qt::RelativeSize);
-                break;
-            case Ellipse:
-                painter.drawEllipse(rect);
-                break;
-            case Arc:
-                painter.drawArc(rect, startAngle, arcLength);
-                break;
-            case Chord:
-                painter.drawChord(rect, startAngle, arcLength);
-                break;
-            case Pie:
-                painter.drawPie(rect, startAngle, arcLength);
-                break;
-            case Path:
-                painter.drawPath(path);
-                break;
-            case Text:
-                painter.drawText(rect, Qt::AlignCenter, tr("Qt by Marek Jenda"));
-                break;
             case Cykloida: {
                 j = 0;
                 std::vector<Point> splinePoints;
@@ -145,12 +98,12 @@ void RenderArea::paintEvent(QPaintEvent *event) {
                     Point p = {30*i - 60*sin(i), 30 - 60*cos(i)+150};
                     if(j % 2== 0) splinePoints.push_back(p);
                 }
-                //painter.drawPolyline(function, 700);
+                painter.drawPolyline(function, 700);
                 Coef * coef = splineNatural(splinePoints);
 
                 j = 0;
                 for(float i = 0; i <= 70; i+=0.1, j++) {
-                    for(int k = 0; k < splinePoints.size()-1; k++)
+                    for(int k = 0; k < static_cast<int>(splinePoints.size()-1); k++)
                         if((splinePoints[k].x <= (30*i - 60*sin(i))) && ((30*i - 60*sin(i) )<= splinePoints[k+1].x)) {
                             function[j] = generatePoint(30*i - 60*sin(i), splinePoints[k].x, coef[k]);
                             break;
