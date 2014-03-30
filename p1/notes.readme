@@ -2,7 +2,9 @@
  
 This project is unfinished.
 TODO: 
-  Solve problem with approcimating cicle curves. 
+  Solve problem with approximating cicle curves. 
   Algorithm work good for noncircular curves but is not taking into consideration
     situations when curve is circular.
   There is an ambiguity in content of the task. What does vectors at the end of spline mean?
+  But i think that core algorithm (i mean Natural Cubic Spline and Clamped Cubic Spline) may be helpful.
+  Also GUI is working good and may be useful in similar projects. 
